@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "SQLAPI/include/SQLAPI.h"
 #include "connect.h"
+#include "fullBackup.h"
+#include "logged.h"
 
 using namespace std;
 
@@ -36,6 +38,28 @@ string select_type() {
     return "N/A";
 }
 
+int choice_selection() {
+    int choice;
+    std::cout << "\n";
+    std::cout <<"Select an Option Below (Type the #)\n";
+    std::cout <<"-------------------------------------\n";
+    std::cout <<"1. Full Backup on Local System\n";
+
+    std::cout <<"number : ";
+    std::cin >> choice;
+    if (choice == 1) {
+        string newDbName;
+        std::cout << "\n";
+        std::cout << "What do you want to call this new database: ";
+        std::cin >> newDbName;
+        std::cout << "\n";
+
+        // Backup Function
+        backupDatabasePostgreSQL(newDbName);
+    }
+    return 1;
+}
+
 
 int main() {
     welcome_message();
@@ -47,12 +71,12 @@ int main() {
     SAConnection* con = connect(db_type);
     if (con != nullptr) {  // Check if connection was successful
         try {
-            SACommand cmd(con, "SELECT * FROM exercise");
-            cmd.Execute();
-            while (cmd.FetchNext()) {
-                std::cout << (const char*)cmd.Field("workout_id").asString() << std::endl;
+            // Run menu continuously
+            int menuStatus = 0;
+            while (menuStatus == 0) {
+                menuStatus = choice_selection();
             }
-            // Your SQL operations go here, e.g., querying the database
+            // SQL operations go here, e.g., querying the database
             con->Disconnect();  // Disconnect when done
         } catch (SAException &x) {
             std::cerr << "Error during database operation: " << (const char*)x.ErrText() << std::endl;

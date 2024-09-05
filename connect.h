@@ -1,12 +1,16 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include "user.h"
+#include "logged.h"
 #include "SQLAPI/include/SQLAPI.h"
 
 using namespace std;
 
 UserConnection requestParamsPostgreSQL() {
     UserConnection user;
+    
     std::cout<< "Please fill out the following params to connect to your desired database.\n";
     std::cout<< "Database Name: ";
     std::cin >> user.db_name;
@@ -22,6 +26,8 @@ UserConnection requestParamsPostgreSQL() {
 
     std::cout<< "port: ";
     std::cin >> user.port;
+    
+    Logged::getInstance().setUser(user);
     return user;
 }
 

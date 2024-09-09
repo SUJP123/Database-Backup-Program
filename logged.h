@@ -14,11 +14,29 @@ class Logged {
         Logged& operator = (const Logged&) = delete;
 
         UserConnection user;
+        string s3name;
+        string s3path;
     
     public:
         static Logged& getInstance() {
             static Logged instance;
             return instance;
+        }
+
+        string getS3Name() {
+            return s3name;
+        }
+
+        void setS3Name(string newS3Name) {
+            s3name = newS3Name;
+        }
+
+        string getS3Path() {
+            return s3path;
+        }
+
+        void setS3Path(string newS3Path) {
+            s3path = newS3Path;
         }
 
         UserConnection getUser() {

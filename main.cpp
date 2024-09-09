@@ -5,6 +5,7 @@
 #include "connect.h"
 #include "fullBackup.h"
 #include "logged.h"
+#include "cloudBackup.h"
 
 using namespace std;
 
@@ -44,6 +45,7 @@ int choice_selection() {
     std::cout <<"Select an Option Below (Type the #)\n";
     std::cout <<"-------------------------------------\n";
     std::cout <<"1. Full Backup on Local System\n";
+    std::cout <<"2. Full Backup on AWS Cloud\n";
 
     std::cout <<"number : ";
     std::cin >> choice;
@@ -54,8 +56,16 @@ int choice_selection() {
         std::cin >> newDbName;
         std::cout << "\n";
 
-        // Backup Function
+        // Full Backup Function
         backupDatabasePostgreSQL(newDbName);
+    } else if (choice == 2) {
+        string newDbName;
+        std::cout << "\n";
+        std::cout << "What do you want to call this new database: ";
+        std::cin >> newDbName;
+        std::cout << "\n";
+
+        cloudBackupPostgreSQL(newDbName);
     }
     return 1;
 }
